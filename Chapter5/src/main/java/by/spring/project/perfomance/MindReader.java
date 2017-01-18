@@ -2,8 +2,8 @@ package by.spring.project.perfomance;
 
 public interface MindReader {
 
-	void setThoughts(String thoughts);
+	void interceptThoughts(String thoughts);
 	
-	String interactThoughts();
+	String getThoughts();
 
 }

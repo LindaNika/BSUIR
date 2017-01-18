@@ -20,7 +20,13 @@
 	
 	<bean id="audience" class="by.spring.project.perfomance.Audience"/>
 	
+	<bean id="audience1" class="by.spring.project.perfomance.AudienceAnnotation"/>
+	
 	<bean id="magician" class="by.spring.project.perfomance.Magican"/>
+	
+	<bean id="magician2" class="by.spring.project.perfomance.Magican2"/>
+	
+	<bean id="volunteer" class="by.spring.project.perfomance.Volunteer"/>
 
 	 <bean id='Kenny' class="by.spring.project.perfomance.Instrumentalist">
 	 	<!-- <property name="instrument" ref="guitar"/>-->
@@ -43,10 +49,12 @@
 	 
 	 <aop:config>
 	 	<aop:aspect ref='magician'>
-	 		<aop:pointcut expression="execution (* by.spring.project.perfomance.Thinker.thinkOfSomthing(String)) and args(thoughts)" id="thinking"/>
+	 		<aop:pointcut expression="execution (* by.spring.project.perfomance.Thinker.thinkOfSomething(String)) and args(thoughts)" id="thinking"/>
 	 		
-	 		<aop:before pointcut-ref="thinking" method="interactThoughts" arg-names="thoughts"/>
+	 		<aop:before pointcut-ref="thinking" method="interceptThoughts" arg-names="thoughts"/>
 	 	</aop:aspect>
 	 </aop:config>
+	 
+	 <aop:aspectj-autoproxy/>
 	
 </beans>
