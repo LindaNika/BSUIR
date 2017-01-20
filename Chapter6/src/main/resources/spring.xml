@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://localhost:1433;DatabaseName=spitter;encrypt=false" />
+		<property name="username" value="sa" />
+		<property name="password" value="Admin1234" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="spitterDAO" class="by.bsuir.spring.spitter.SimpleJDBCTemplateSpitterDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="by.bsuir.spring.spitter" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <context:component-scan base-package="by.bsuir.spring.spitter"/> -->
+
+	<bean id="hibernateSpitterDAO" class="by.bsuir.spring.spitter.HibernateSpitterDAO">
+		<constructor-arg ref="sessionFactory"/>
+	</bean>
+
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+</beans>
